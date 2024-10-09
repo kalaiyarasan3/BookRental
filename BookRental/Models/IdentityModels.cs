@@ -20,7 +20,9 @@ namespace BookRental.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext()
+		public DbSet<Book> Books { get; set; }
+		public DbSet<Genre> Genres { get; set; }
+		public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
