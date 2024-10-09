@@ -267,6 +267,8 @@
     <Content Include="Views\Shared\_AdminMenuPartial.cshtml" />
     <Content Include="Views\Genre\Create.cshtml" />
     <Content Include="Views\Genre\Index.cshtml" />
+    <Content Include="Views\Shared\_CreateButton.cshtml" />
+    <Content Include="Views\Shared\_BackToListButton.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
