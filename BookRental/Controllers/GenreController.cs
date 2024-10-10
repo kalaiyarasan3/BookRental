@@ -40,6 +40,39 @@ namespace BookRental.Controllers
             return View();
         }
 
+        public ActionResult Edit(int? id)
+        {
+            if(id==null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var genre = _context.Genres.Find(id);
+            if(genre==null)
+            {
+                return HttpNotFound();
+            }
+            return View(genre);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Genre genre)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(genre);
+            }
+
+            var genreInDb=_context.Genres.Find(genre.Id);
+
+            if(genreInDb==null)
+            {
+                return HttpNotFound();
+            }
+            genreInDb.Name = genre.Name;
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
         public ActionResult Details(int? id)
         {
             if(id==null)
@@ -52,6 +85,28 @@ namespace BookRental.Controllers
                 return HttpNotFound();
             }
             return View(genre);
+        }
+        public ActionResult Delete(int? id)
+        {
+            if(id==null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var genreInDb = _context.Genres.Find(id);
+            if(genreInDb==null)
+            {
+                return HttpNotFound();
+            }
+            return View(genreInDb);
+        }
+        [HttpPost,ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(Genre genre)
+        {
+            var genreInDb = _context.Genres.Find(genre.Id);
+            _context.Genres.Remove(genreInDb);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
 		protected override void Dispose(bool disposing)
 		{
