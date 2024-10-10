@@ -47,9 +47,6 @@
             @Html.DisplayFor(modelItem => item.Price)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ProductDimensions)
-        </td>
-        <td>
           @Html.Partial("_TableButtonPartial",new IndividualButtonPartial {BookId=item.Id})
         </td>
     </tr>

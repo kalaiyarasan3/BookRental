@@ -212,6 +212,11 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\Images\fortune.png" />
+    <Content Include="Content\Images\GiantBook.png" />
+    <Content Include="Content\Images\jungle.jpg" />
+    <Content Include="Content\Images\Spider.png" />
+    <Content Include="Content\Images\Sunset.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -279,6 +284,7 @@
     <Content Include="Views\Genre\Edit.cshtml" />
     <Content Include="Views\Genre\Delete.cshtml" />
     <Content Include="Views\Book\Index.cshtml" />
+    <Content Include="Views\Book\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
