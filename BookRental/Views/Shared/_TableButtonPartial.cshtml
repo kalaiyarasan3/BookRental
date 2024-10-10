@@ -1,0 +1,44 @@
+﻿@using BookRental.Models
+
+<td style="width=400px;">
+    <div class="btn-group" role="group">
+        @Html.Partial("_IndividualButtonPartial",
+       new IndividualButtonPartial
+       {
+           Action = "Edit",
+           ButtonType = "btn-primary",
+           Glyph = "bi bi-pencil",
+           Text = "Edit Button",
+           GenreId = Model.GenreId,
+           BookId = Model.BookId,
+           CustomerId = Model.CustomerId,
+           MembershipTypeId = Model.MembershipTypeId
+       })
+
+        @Html.Partial("_IndividualButtonPartial",
+       new IndividualButtonPartial
+       {
+           Action = "Details",
+           ButtonType = "btn-success",
+           Glyph = "bi bi-card-list",
+           Text = "Details Button",
+           GenreId = Model.GenreId,
+           BookId = Model.BookId,
+           CustomerId = Model.CustomerId,
+           MembershipTypeId = Model.MembershipTypeId
+       })
+
+        @Html.Partial("_IndividualButtonPartial",
+          new IndividualButtonPartial
+          {
+              Action = "Delete",
+              ButtonType = "btn-danger",
+              Glyph = "bi bi-trash",
+              Text = "Delete Button",
+              GenreId = Model.GenreId,
+              BookId = Model.BookId,
+              CustomerId = Model.CustomerId,
+              MembershipTypeId = Model.MembershipTypeId
+          })
+    </div>
+</td>
