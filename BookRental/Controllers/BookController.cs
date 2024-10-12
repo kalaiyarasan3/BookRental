@@ -132,6 +132,34 @@ namespace BookRental.Controllers
 			_contect.SaveChanges();
 			return RedirectToAction("Index");
 		}
+
+
+		public ActionResult Delete(int? id)
+		{
+			if (id == null)
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+			var bookInDb = _contect.Books.Find(id);
+
+			if (bookInDb == null)
+				return HttpNotFound();
+			var bookViewModel = new BookViewModel
+			{
+				Book = bookInDb,
+				Genre = _contect.Genres.ToList()
+			};
+			return View(bookViewModel);
+		}
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		[ActionName("Delete")]
+		public ActionResult DeleteConfirmed(int id)
+		{
+			var bookInDb=_contect.Books.Find(id);
+			_contect.Books.Remove(bookInDb);
+			_contect.SaveChanges();
+			return RedirectToAction("Index");
+		}
 		protected override void Dispose(bool disposing)
 		{
 			_contect.Dispose();

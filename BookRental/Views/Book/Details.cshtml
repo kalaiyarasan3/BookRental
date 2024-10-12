@@ -10,6 +10,13 @@
     <h4>Book</h4>
     <hr />
     <dl class="dl-horizontal">
+
+        <div class="col-sm-2">
+            <div>
+                <img src="@Model.Book.ImageUrl" alt="" style="width:100%; height:auto" />
+            </div>
+        </div>
+
         <dt>
             @Html.DisplayNameFor(model => model.Book.ISBN)
         </dt>
@@ -40,14 +47,6 @@
 
         <dd>
             @Html.DisplayFor(model => model.Book.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Book.ImageUrl)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Book.ImageUrl)
         </dd>
 
         <dt>

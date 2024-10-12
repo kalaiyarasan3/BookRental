@@ -1,0 +1,56 @@
+﻿@model BookRental.ViewModel.BookViewModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Book</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <div class="col-sm-2">
+            <div>
+                <img src="@Model.Book.ImageUrl" alt="" style="width:100%; height:auto" />
+            </div>
+        </div>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Book.ISBN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Book.ISBN)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Book.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Book.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Book.Author)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Book.Author)
+        </dd>
+
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <button class="btn btn-danger" type="submit"><i class="bi bi-trash"></i><span>Delete</span></button>|
+            @Html.Partial("_BackToListButton")
+        </div>
+    }
+</div>
