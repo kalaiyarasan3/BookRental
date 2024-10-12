@@ -80,7 +80,7 @@ namespace BookRental.Controllers
             Indb.ChargeRateOneMonth = membershipType.ChargeRateOneMonth;
             Indb.ChargeRateSixMonth = membershipType.ChargeRateSixMonth;
 
-            _context.Entry(Indb).State=EntityState.Modified;
+            //_context.Entry(Indb).State=EntityState.Modified;
             _context.SaveChanges();
 
             return RedirectToAction("Index");
