@@ -22,7 +22,8 @@ namespace BookRental.Models
     {
 		public DbSet<Book> Books { get; set; }
 		public DbSet<Genre> Genres { get; set; }
-		public ApplicationDbContext()
+        public DbSet<MembershipType> membershipTypes { get; set; }
+        public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
