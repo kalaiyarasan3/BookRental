@@ -1,2 +1,17 @@
-﻿body {
+﻿.img-container {
+    overflow: hidden;
+    width: 100%;
+    max-width: 300px; /* Adjust as needed */
 }
+
+    /* Image styling */
+    .img-container img {
+        width: 100%;
+        height: auto;
+        transition: transform 0.3s ease; /* Smooth zoom transition */
+    }
+
+    /* Zoom effect on hover */
+    .img-container:hover img {
+        transform: scale(1.2); /* 1.2 means 120% zoom */
+    }

@@ -1,16 +1,17 @@
 ﻿@model BookRental.ViewModel.ThumbnailBoxViewModel
 <div class="row">
-@if(Model.Thumbnails !=null)
-            {
-                foreach(var thumbnail in Model.Thumbnails)
-                {
-                    <div class="col-xs-6 col-md-3">
-                        <div class="card" style="width:18rem">
-                            <a href="@thumbnail.ImgageUrl"><img class="card-img-top" src="@thumbnail.ImgageUrl" alt="thumbnail.img"></a>
-                            <h4 class="card-body"><a href="@thumbnail.Link">@thumbnail.Title</a></h4>
-                            <p class="card-text">@Html.Raw(thumbnail.Description)</p>
-                        </div>
-                    </div>
-                }
-            }
+    @if (Model.Thumbnails != null)
+    {
+        foreach (var thumbnail in Model.Thumbnails)
+        {
+            <div class="col-auto m-3">
+
+                <div class="card" style="width:15rem;">
+                    <a href="@thumbnail.ImageUrl" class="img-container"><img class="card-img-top img-thumbnail" src="@thumbnail.ImageUrl" alt="thumbnail.img"></a>
+                    <h5 class="card-body"><a href="@thumbnail.Link">@thumbnail.Title</a></h5>
+                    <p class="card-text">@Html.Raw(thumbnail.Description)</p>
+                </div>
+            </div>
+        }
+    }
 </div>
