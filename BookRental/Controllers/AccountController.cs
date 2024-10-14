@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using BookRental.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
+using BookRental.Utility;
 
 namespace BookRental.Controllers
 {
@@ -139,7 +141,13 @@ namespace BookRental.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            var _context=new ApplicationDbContext();
+            var newUser = new RegisterViewModel
+            {
+                MembershipTypes = _context.membershipTypes.ToList(),
+                BirthDate = DateTime.Now
+            };
+            return View(newUser);
         }
 
         //
@@ -151,22 +159,53 @@ namespace BookRental.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
+				var user = new ApplicationUser
+				{
+					UserName = model.Email,
+					Email = model.Email,
+					BirthDate = (DateTime)model.BirthDate,
+					LastName = model.LastName,
+					FirstName = model.FirstName,
+					Phone = model.Phone,
+					MembershipId = model.MembershipId,
+					Disable = false
+				};
+				var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+					using (var db = ApplicationDbContext.Create())
+					{
+						model.MembershipTypes = db.membershipTypes.ToList();
+						var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
+						var roleManager = new RoleManager<IdentityRole>(roleStore);
+						var memebership = model.MembershipTypes.SingleOrDefault(m => m.Id == model.MembershipId).Name.ToString();
+						if (memebership.ToLower().Contains("admin"))
+						{
+							//For Super Admin
+							await roleManager.CreateAsync(new IdentityRole(SD.AdminUserRole));
+							await UserManager.AddToRoleAsync(user.Id, SD.AdminUserRole);
+						}
+						else
+						{
+							//For Customer
+							await roleManager.CreateAsync(new IdentityRole(SD.EndUserRole));
+							await UserManager.AddToRoleAsync(user.Id, SD.EndUserRole);
+						}
+					}
+					await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                    return RedirectToAction("Index", "Home");
+					// For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+					// Send an email with this link
+					// string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+					// var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+					// await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+					return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
             }
+            var _context = new ApplicationDbContext();
+            model.MembershipTypes = _context.membershipTypes.ToList();
 
             // If we got this far, something failed, redisplay form
             return View(model);
