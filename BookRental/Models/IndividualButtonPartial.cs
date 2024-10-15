@@ -16,8 +16,9 @@ namespace BookRental.Models
 		public int? BookId { get; set; }
 		public int? CustomerId { get; set; }
 		public int? MembershipTypeId { get; set; }
+        public string UserId { get; set; }
 
-		public string ActionParameter
+        public string ActionParameter
         {
             get
             {
