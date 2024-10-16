@@ -43,6 +43,7 @@ namespace BookRental.Models
 		[Required]
 		public int Pages { get; set; }
 		[Required]
+		[Display(Name ="Product Dimensions")]
 		public string ProductDimensions { get; set; }
 	}
 }
