@@ -10,40 +10,40 @@ namespace BookRental.ViewModel
 {
 	public class BookRentalViewModel
 	{
-        public int Id { get; set; }
+		public int Id { get; set; }
 
-        //Book Model
-        public int BookId { get; set; }
-        public string ISBN { get; set; }
-        public string Title { get; set; }
-        public string Author { get; set; }
-        public string Description { get; set; }
+		//Book Model
+		public int BookId { get; set; }
+		public string ISBN { get; set; }
+		public string Title { get; set; }
+		public string Author { get; set; }
+		public string Description { get; set; }
 
-        [DataType(DataType.ImageUrl)]
-        public string ImageUrl { get; set; }
+		[DataType(DataType.ImageUrl)]
+		public string ImageUrl { get; set; }
 
-        [Range(0, 1000)]
-        public int Availability { get; set; }
+		[Range(0, 1000)]
+		public int Availbility { get; set; }
 
-        [Required]
-        [DataType(DataType.Currency)]
-        public double Price { get; set; }
+		[Required]
+		[DataType(DataType.Currency)]
+		public double Price { get; set; }
 
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:MMM dd yyyy}")]
-        public DateTime DateAdded { get; set; }
-        public int  GenreId { get; set; }
-        public Genre Genre { get; set; }
-        public string Publisher { get; set; }
+		[DataType(DataType.Date)]
+		[DisplayFormat(DataFormatString = "{0:MMM dd yyyy}")]
+		public DateTime DateAdded { get; set; }
+		public int GenreId { get; set; }
+		public Genre Genre { get; set; }
+		public string Publisher { get; set; }
 
-        [Display(Name ="Publication Date")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString ="{0: MMM dd yyyy}")]
-        public DateTime PublicationDate { get; set; }
-        public int Pages { get; set; }
+		[Display(Name = "Publication Date")]
+		[DataType(DataType.Date)]
+		[DisplayFormat(DataFormatString = "{0: MMM dd yyyy}")]
+		public DateTime PublicationDate { get; set; }
+		public int Pages { get; set; }
 
-        [DisplayName("Product Dimensions")]
-        public string ProductDimensions { get; set; }
+		[DisplayName("Product Dimensions")]
+		public string ProductDimensions { get; set; }
 
 		//BookRent
 
@@ -86,4 +86,5 @@ namespace BookRental.ViewModel
 		{
 			get; set;
 		}
+	}
 }
