@@ -199,9 +199,14 @@
     <Compile Include="Migrations\202410122304188_AddingFieldsToUsers.Designer.cs">
       <DependentUpon>202410122304188_AddingFieldsToUsers.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202410160605243_AddBookRentalModel.cs" />
+    <Compile Include="Migrations\202410160605243_AddBookRentalModel.Designer.cs">
+      <DependentUpon>202410160605243_AddBookRentalModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Book.cs" />
+    <Compile Include="Models\BookRent.cs" />
     <Compile Include="Models\Genre.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\IndividualButtonPartial.cs" />
@@ -366,6 +371,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202410122304188_AddingFieldsToUsers.resx">
       <DependentUpon>202410122304188_AddingFieldsToUsers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202410160605243_AddBookRentalModel.resx">
+      <DependentUpon>202410160605243_AddBookRentalModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
