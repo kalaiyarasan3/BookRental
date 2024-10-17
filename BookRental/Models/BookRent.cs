@@ -17,8 +17,8 @@ namespace BookRental.Models
         [Required]
         public int BookId { get; set; }
         public DateTime? StartDate { get; set; }
-        public DateTime? ScheduledStarDate { get; set; }
-        public DateTime? ActualStartDate { get; set; }
+        public DateTime? ScheduledEndDate { get; set; }
+        public DateTime? ActualEndDate { get; set; }
 
         [Required]
         public double RentalPrice { get; set; }

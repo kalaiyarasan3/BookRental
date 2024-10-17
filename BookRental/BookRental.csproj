@@ -208,6 +208,10 @@
     <Compile Include="Migrations\202410160834439_BookRentalUserIdAndRentalDurationNotNull.Designer.cs">
       <DependentUpon>202410160834439_BookRentalUserIdAndRentalDurationNotNull.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202410171307268_UpdateBookRentModel.cs" />
+    <Compile Include="Migrations\202410171307268_UpdateBookRentModel.Designer.cs">
+      <DependentUpon>202410171307268_UpdateBookRentModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Book.cs" />
@@ -385,6 +389,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202410160834439_BookRentalUserIdAndRentalDurationNotNull.resx">
       <DependentUpon>202410160834439_BookRentalUserIdAndRentalDurationNotNull.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202410171307268_UpdateBookRentModel.resx">
+      <DependentUpon>202410171307268_UpdateBookRentModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
