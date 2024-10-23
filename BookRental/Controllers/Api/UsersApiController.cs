@@ -29,9 +29,9 @@ namespace BookRental.Controllers.Api
                                     where u.Email.ToLower().Contains(query)
                                     select new { u.FirstName, u.LastName, u.BirthDate };
 
-                return Ok(customerQuery.ToList()[0].FirstName+" " + customerQuery.ToList()[0].FirstName + ";" + customerQuery.ToList()[0].BirthDate);
+				return Ok(customerQuery.ToList()[0].FirstName + " " + customerQuery.ToList()[0].LastName + ";" + customerQuery.ToList()[0].BirthDate);
 
-            }
+			}
             return Ok();
         }
 
