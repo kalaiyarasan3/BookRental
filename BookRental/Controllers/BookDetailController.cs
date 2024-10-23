@@ -52,7 +52,7 @@ namespace BookRental.Controllers
                 BookId = bookModel.Id,
                 ISBN = bookModel.ISBN,
                 Author = bookModel.Author,
-                Availbility = bookModel.Avaibility,
+                Availability = bookModel.Avaibility,
                 DateAdded = (DateTime)bookModel.DateAdded,
                 Description = bookModel.Description,
                 Genre = _context.Genres.FirstOrDefault(g => g.Id.Equals(bookModel.GenreId)),

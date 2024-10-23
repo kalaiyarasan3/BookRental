@@ -23,7 +23,7 @@ namespace BookRental.ViewModel
 		public string ImageUrl { get; set; }
 
 		[Range(0, 1000)]
-		public int Availbility { get; set; }
+		public int Availability { get; set; }
 
 		[Required]
 		[DataType(DataType.Currency)]

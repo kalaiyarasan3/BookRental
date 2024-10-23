@@ -66,7 +66,7 @@
                         @Html.DropDownListFor(m => m.RentalDuration, listItem, new { @class = "form-control" })
                         <span style="font-size:12px;">Reserve before 3pm for same day pickup.<br /><br /></span>
 
-                        @if (Model.Availbility > 0) 
+                        @if (Model.Availability > 0) 
                         {
                             <button type="submit" class="btn btn-primary">
                                 <span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;Reserve
@@ -89,7 +89,7 @@
                         </div>
                         <hr />
 
-                        @if (User.IsInRole(SD.AdminUserRole) && Model.Availbility > 0)
+                        @if (User.IsInRole(SD.AdminUserRole) && Model.Availability > 0)
                         {
                             //Admin user with Create button
                             @Html.ActionLink("Create Rental", "Create", "BookRent",
@@ -97,7 +97,7 @@
                         }
                         else
                         {
-                            if (User.IsInRole(SD.AdminUserRole) && Model.Availbility == 0)
+                            if (User.IsInRole(SD.AdminUserRole) && Model.Availability == 0)
                             {
                                 //Admin user with book not available
                                 <button type="submit" class="btn btn-danger" disabled>
