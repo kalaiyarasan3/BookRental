@@ -124,7 +124,45 @@ namespace BookRental.Controllers
 
 		public ActionResult Index()
 		{
-			return View();
+			string userid = User.Identity.GetUserId();
+			var model = from br in _context.BookRental
+						join b in _context.Books on br.BookId equals b.Id
+						join u in _context.Users on br.UserId equals u.Id
+						select new BookRentalViewModel
+						{
+							Id = br.Id,
+							BookId = b.Id,
+							RentalPrice = br.RentalPrice,
+							Price = b.Price,
+							Pages = b.Pages,
+							FirstName = u.FirstName,
+							LastName = u.LastName,
+							BirthDate = u.BirthDate,
+							ScheduledEndDate = br.ScheduledEndDate,
+							Author = b.Author,
+							Availability = b.Avaibility,
+							DateAdded = (DateTime)b.DateAdded,
+							Description = b.Description,
+							Email = u.Email,
+							GenreId = b.GenreId,
+							Genre = _context.Genres.Where(g => g.Id.Equals(b.GenreId)).FirstOrDefault(),
+							ISBN = b.ISBN,
+							ImageUrl = b.ImageUrl,
+							ProductDimensions = b.ProductDimensions,
+							PublicationDate = b.PublicationDate,
+							Publisher = b.Publisher,
+							RentalDuration = br.RentalDuration,
+							Status = br.Status.ToString(),
+							Title = b.Title,
+							UserId = u.Id
+
+						};
+			if (!User.IsInRole(SD.AdminUserRole))
+			{
+				model = model.Where(u => u.UserId.Equals(userid));
+
+			}
+			return View(model.ToList());
 		}
 		protected override void Dispose(bool disposing)
 		{

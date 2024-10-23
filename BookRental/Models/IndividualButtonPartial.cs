@@ -18,6 +18,8 @@ namespace BookRental.Models
 		public int? MembershipTypeId { get; set; }
         public string UserId { get; set; }
 
+		public int? BookRentalId { get; set; }
+
         public string ActionParameter
         {
             get
