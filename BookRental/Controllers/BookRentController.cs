@@ -3,10 +3,9 @@ using BookRental.Utility;
 using BookRental.ViewModel;
 using Microsoft.AspNet.Identity;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using PagedList;
 
 namespace BookRental.Controllers
 {
@@ -39,7 +38,7 @@ namespace BookRental.Controllers
 			if (ModelState.IsValid)
 			{
 				var email = bookRentVM.Email;
-				
+
 				var userDetails = from u in _context.Users
 								  where u.Email.Equals(email)
 								  select new { u.Id, u.FirstName, u.LastName, u.BirthDate };
@@ -55,7 +54,7 @@ namespace BookRental.Controllers
 				var chargeRate = from u in _context.Users
 								 join m in _context.membershipTypes
 								 on u.MembershipId equals m.Id
-								 where u.Email==email
+								 where u.Email == email
 								 select new { m.ChargeRateOneMonth, m.ChargeRateSixMonth };
 
 				var oneMonthRental = Convert.ToDouble(bookSelected.Price) * Convert.ToDouble(chargeRate.ToList()[0].ChargeRateOneMonth) / 100;
@@ -67,10 +66,10 @@ namespace BookRental.Controllers
 				{
 					rentalPrice = sixMonthRental;
 				}
-                else
-                {
+				else
+				{
 					rentalPrice = oneMonthRental;
-                }
+				}
 
 				var Model = new BookRentalViewModel
 				{
@@ -122,7 +121,7 @@ namespace BookRental.Controllers
 			return View();
 		}
 
-		public ActionResult Index()
+		public ActionResult Index(int? pageNumber, string option = null, string search = null)
 		{
 			string userid = User.Identity.GetUserId();
 			var model = from br in _context.BookRental
@@ -157,13 +156,64 @@ namespace BookRental.Controllers
 							UserId = u.Id
 
 						};
+			if (option == "email" && search.Length > 0)
+			{
+				model = model.Where(u => u.Email.Contains(search));
+			}
+			if (option == "name" && search.Length > 0)
+			{
+				model = model.Where(u => u.FirstName.Contains(search) || u.LastName.Contains(search));
+			}
+			if (option == "status" && search.Length > 0)
+			{
+				model = model.Where(u => u.Status.Contains(search));
+			}
 			if (!User.IsInRole(SD.AdminUserRole))
 			{
 				model = model.Where(u => u.UserId.Equals(userid));
 
 			}
-			return View(model.ToList());
+			return View(model.ToList().ToPagedList(pageNumber ?? 1, 5));
 		}
+
+		[HttpPost]
+		public ActionResult Reserve(BookRentalViewModel book)
+		{
+			var userid = User.Identity.GetUserId();
+			Book bookToRent = _context.Books.Find(book.BookId);
+			double rentalPr = 0;
+			if (userid != null)
+			{
+				var chargeRate = from u in _context.Users
+								 join m in _context.membershipTypes
+								 on u.MembershipId equals m.Id
+								 where u.Id.Equals(userid)
+								 select new { m.ChargeRateOneMonth, m.ChargeRateSixMonth };
+				if (book.RentalDuration == SD.SixMonthCount)
+				{
+					rentalPr = Convert.ToDouble(bookToRent.Price) * Convert.ToDouble(chargeRate.ToList()[0].ChargeRateSixMonth) / 100;
+				}
+				else
+				{
+					rentalPr = Convert.ToDouble(bookToRent.Price) * Convert.ToDouble(chargeRate.ToList()[0].ChargeRateOneMonth) / 100;
+				}
+				BookRent bookRent = new BookRent
+				{
+					BookId = bookToRent.Id,
+					UserId = userid,
+					RentalDuration = book.RentalDuration,
+					RentalPrice = rentalPr,
+					Status = BookRent.StatusEnum.Requested,
+				};
+				_context.BookRental.Add(bookRent);
+				var bookInDb = _context.Books.SingleOrDefault(c => c.Id == book.BookId);
+				bookInDb.Avaibility -= 1;
+				_context.SaveChanges();
+				return RedirectToAction("Index", "BookRent");
+			}
+			return View();
+		}
+
 		protected override void Dispose(bool disposing)
 		{
 			_context.Dispose();

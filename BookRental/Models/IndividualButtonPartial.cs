@@ -42,6 +42,10 @@ namespace BookRental.Models
 				{
 					param.Append(String.Format("{0}", CustomerId));
 				}
+				if (BookRentalId != null && BookRentalId > 0)
+				{
+					param.Append(String.Format("{0}", BookRentalId));
+				}
 				return param.ToString();
 			}
         }

@@ -1,7 +1,5 @@
 ﻿using BookRental.Models;
 using BookRental.Utility;
-using BookRental.Models;
-using BookRental.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
