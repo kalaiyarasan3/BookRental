@@ -16,7 +16,7 @@
             @if (User.IsInRole(SD.AdminUserRole))
             {
                 <p>
-                    @Html.Partial("_CreateButtonPartial")
+                    @Html.Partial("_CreateButton")
                 </p>
             }
         </div>
@@ -131,10 +131,103 @@
                BookRentalId = item.Id
                })
                 </td>
-                <td></td>
+                <td>
+                    @if (item.Status.ToString().Equals(SD.RequestedLower) && User.IsInRole(SD.AdminUserRole))
+                    {
+                        //approve and decline buttons
+                        @Html.Partial("_IndividualButtonPartial", new IndividualButtonPartial
+                   {
+                       Action = "Decline",
+                       ButtonType = "btn-danger",
+                       Glyph = "remove",
+                       Text = "Decline Button",
+                       BookId = null,
+                       CustomerId = null,
+                       GenreId = null,
+                       MembershipTypeId = null,
+                       UserId = null,
+                       BookRentalId = item.Id
+                   })
+
+                        @Html.Partial("_IndividualButtonPartial", new IndividualButtonPartial
+                   {
+                       Action = "Approve",
+                       ButtonType = "btn-primary",
+                       Glyph = "ok",
+                       Text = "Approve Button",
+                       BookId = null,
+                       CustomerId = null,
+                       GenreId = null,
+                       MembershipTypeId = null,
+                       UserId = null,
+                       BookRentalId = item.Id
+                   })
+                    }
+                    else
+                    {
+                        if ((item.Status.ToString().ToLower().Equals(SD.RequestedLower) && (User.IsInRole(SD.EndUserRole))) ||
+                             (User.IsInRole(SD.AdminUserRole) && !item.Status.ToString().ToLower().Equals(SD.ClosedLower)))
+                        {
+                            //showing delete button
+                            //if status is requsted for customer, show them delete button
+                            //if user is admin and status is not closed then show him admin delete button
+                            @Html.Partial("_IndividualButtonPartial", new IndividualButtonPartial
+                       {
+                           Action = "Delete",
+                           ButtonType = "btn-danger",
+                           Glyph = "trash",
+                           Text = "Delete Button",
+                           BookId = null,
+                           CustomerId = null,
+                           GenreId = null,
+                           MembershipTypeId = null,
+                           UserId = null,
+                           BookRentalId = item.Id
+                       })
+                        }
+
+                        if(item.Status.ToString().ToLower().Equals(SD.ApprovedLower)&& User.IsInRole(SD.AdminUserRole))
+                        {
+                            //display pickup button
+                            @Html.Partial("_IndividualButtonPartial", new IndividualButtonPartial
+                       {
+                           Action="Pickup",
+                           ButtonType="btn-primary",
+                           Glyph="share-alt",
+                           Text="PickUp Button",
+                           BookId=null,
+                           CustomerId=null,
+                           GenreId=null,
+                           MembershipTypeId=null,
+                           UserId=null,
+                           BookRentalId=item.Id
+                       })
+                        }
+                        else
+                        {
+                            if(item.Status.ToString().ToLower().Equals(SD.RentedLower)&&User.IsInRole(SD.AdminUserRole))
+                            {
+                                //display return button
+                                @Html.Partial("_IndividualButtonPartial", new IndividualButtonPartial
+                           {
+                               Action="Return",
+                               ButtonType="btn-primary",
+                               Glyph="retweet",
+                               Text="Return Button",
+                               BookId=null,
+                               CustomerId=null,
+                               GenreId=null,
+                               MembershipTypeId=null,
+                               UserId=null,
+                               BookRentalId=item.Id
+                           })
+                            }
+                        }
+                    }
+                </td>
             </tr>
         }
     </table>
 
-    @Html.PagedListPager(Model, pageNumber => Url.Action("Index", new {pageNumber}))
+    @Html.PagedListPager(Model, pageNumber => Url.Action("Index", new { pageNumber }))
 }
