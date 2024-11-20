@@ -234,7 +234,7 @@ namespace BookRental.Controllers
 
 		public BookRentalViewModel getVMFromBookRent(BookRent bookRent)
 		{
-			var bookSelected = _context.Books.Where(b => b.Id == bookRent.Id).FirstOrDefault();
+			var bookSelected = _context.Books.Where(b => b.Id == bookRent.BookId).FirstOrDefault();
 			var userDetails=from u in _context.Users
 							where u.Id.Equals(bookRent.UserId)
 							select new {u.Id,u.FirstName,u.LastName,u.BirthDate,u.Email};
