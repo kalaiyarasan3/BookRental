@@ -235,9 +235,9 @@ namespace BookRental.Controllers
 		public BookRentalViewModel getVMFromBookRent(BookRent bookRent)
 		{
 			var bookSelected = _context.Books.Where(b => b.Id == bookRent.BookId).FirstOrDefault();
-			var userDetails=from u in _context.Users
-							where u.Id.Equals(bookRent.UserId)
-							select new {u.Id,u.FirstName,u.LastName,u.BirthDate,u.Email};
+			var userDetails = from u in _context.Users
+							  where u.Id.Equals(bookRent.UserId)
+							  select new { u.Id, u.FirstName, u.LastName, u.BirthDate, u.Email };
 
 			BookRentalViewModel model = new BookRentalViewModel
 			{
@@ -274,7 +274,7 @@ namespace BookRental.Controllers
 
 		public ActionResult Decline(int? id)
 		{
-			if(id==null)
+			if (id == null)
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
@@ -283,7 +283,7 @@ namespace BookRental.Controllers
 
 			var model = getVMFromBookRent(bookRent);
 
-			if(model == null)
+			if (model == null)
 			{
 				return HttpNotFound();
 			}
@@ -295,17 +295,21 @@ namespace BookRental.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Decline(BookRentalViewModel model)
 		{
-			if(model.Id==0)
+			if (model.Id == 0)
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
 
-			BookRent bookRent=_context.BookRental.Find(model.Id);
-			bookRent.Status = BookRent.StatusEnum.Rejected;
+			if (ModelState.IsValid)
+			{
+				BookRent bookRent = _context.BookRental.Find(model.Id);
+				bookRent.Status = BookRent.StatusEnum.Rejected;
 
-			Book bookInDb = _context.Books.Find(bookRent.BookId);
-			bookInDb.Avaibility -= 1;
-			_context.SaveChanges();
+				Book bookInDb = _context.Books.Find(bookRent.BookId);
+				bookInDb.Avaibility += 1;
+				_context.SaveChanges();
+			}
+
 			return RedirectToAction("Index");
 		}
 
