@@ -272,6 +272,43 @@ namespace BookRental.Controllers
 			return model;
 		}
 
+		public ActionResult Decline(int? id)
+		{
+			if(id==null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+
+			BookRent bookRent = _context.BookRental.Find(id);
+
+			var model = getVMFromBookRent(bookRent);
+
+			if(model == null)
+			{
+				return HttpNotFound();
+			}
+
+			return View(model);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Decline(BookRentalViewModel model)
+		{
+			if(model.Id==0)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+
+			BookRent bookRent=_context.BookRental.Find(model.Id);
+			bookRent.Status = BookRent.StatusEnum.Rejected;
+
+			Book bookInDb = _context.Books.Find(bookRent.BookId);
+			bookInDb.Avaibility -= 1;
+			_context.SaveChanges();
+			return RedirectToAction("Index");
+		}
+
 		protected override void Dispose(bool disposing)
 		{
 			_context.Dispose();
