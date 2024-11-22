@@ -20,6 +20,8 @@ namespace BookRental.Models
         public DateTime? ScheduledEndDate { get; set; }
         public DateTime? ActualEndDate { get; set; }
 
+        public double? AdditionalCharge { get; set; }
+
         [Required]
         public double RentalPrice { get; set; }
 

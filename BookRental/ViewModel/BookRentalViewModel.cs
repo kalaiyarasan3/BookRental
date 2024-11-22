@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using BookRental.Utility;
 
 namespace BookRental.ViewModel
 {
@@ -85,6 +86,26 @@ namespace BookRental.ViewModel
 		public DateTime? BirthDate
 		{
 			get; set;
+		}
+
+		public string actionName
+		{
+			get 
+			{
+				if(Status.ToLower().Contains(SD.RequestedLower))
+				{
+					return "Approve";
+				}
+				if(Status.ToLower().Contains(SD.ApprovedLower))
+				{
+					return "Pickup";
+				}
+				if(Status.ToLower().Contains(SD.RentedLower))
+				{
+					return "Return";
+				}
+				return null;
+			}
 		}
 	}
 }
