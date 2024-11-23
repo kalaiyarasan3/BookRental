@@ -146,7 +146,7 @@ namespace BookRental.Controllers
 							Email = u.Email,
 							GenreId = b.GenreId,
 							Genre = _context.Genres.Where(g => g.Id.Equals(b.GenreId)).FirstOrDefault(),
-							StartDate=br.StartDate,
+							StartDate = br.StartDate,
 							ISBN = b.ISBN,
 							ImageUrl = b.ImageUrl,
 							ProductDimensions = b.ProductDimensions,
@@ -252,7 +252,7 @@ namespace BookRental.Controllers
 				BirthDate = userDetails.ToList()[0].BirthDate,
 				ScheduledEndDate = bookRent.ScheduledEndDate,
 				Author = bookSelected.Author,
-				AdditionalCharge=bookRent.AdditionalCharge,
+				AdditionalCharge = bookRent.AdditionalCharge,
 				StartDate = bookRent.StartDate,
 				Availability = bookSelected.Avaibility,
 				DateAdded = (DateTime)bookSelected.DateAdded,
@@ -276,7 +276,7 @@ namespace BookRental.Controllers
 
 		public ActionResult Approve(int? id)
 		{
-			if(id==null)
+			if (id == null)
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
@@ -284,7 +284,7 @@ namespace BookRental.Controllers
 			BookRent bookRent = _context.BookRental.Find(id);
 			var model = getVMFromBookRent(bookRent);
 
-			if(model==null)
+			if (model == null)
 			{
 				return HttpNotFound();
 			}
@@ -296,7 +296,7 @@ namespace BookRental.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Approve(BookRentalViewModel model)
 		{
-			if(model.Id==0)
+			if (model.Id == 0)
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
@@ -304,7 +304,7 @@ namespace BookRental.Controllers
 			if (ModelState.IsValid)
 			{
 				BookRent bookRent = _context.BookRental.Find(model.Id);
-				bookRent.Status=BookRent.StatusEnum.Approved;
+				bookRent.Status = BookRent.StatusEnum.Approved;
 
 				_context.SaveChanges();
 			}
@@ -313,16 +313,16 @@ namespace BookRental.Controllers
 
 		public ActionResult PickUp(int? id)
 		{
-			if(id==null)
+			if (id == null)
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
 
-			var bookRent=_context.BookRental.Find(id);
+			var bookRent = _context.BookRental.Find(id);
 
 			var model = getVMFromBookRent(bookRent);
 
-			if(model==null)
+			if (model == null)
 			{
 				return HttpNotFound();
 			}
@@ -336,21 +336,21 @@ namespace BookRental.Controllers
 		{
 			if (model.Id.Equals(0))
 			{
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest) ;
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
 
-			if(ModelState.IsValid)
+			if (ModelState.IsValid)
 			{
 				BookRent bookRent = _context.BookRental.Find(model.Id);
-				bookRent.Status=BookRent.StatusEnum.Rented;
-				bookRent.StartDate=DateTime.Now;
-				if(bookRent.RentalDuration==SD.SixMonthCount)
+				bookRent.Status = BookRent.StatusEnum.Rented;
+				bookRent.StartDate = DateTime.Now;
+				if (bookRent.RentalDuration == SD.SixMonthCount)
 				{
-					bookRent.ScheduledEndDate=DateTime.Now.AddMonths(Convert.ToInt32(SD.SixMonthCount));
+					bookRent.ScheduledEndDate = DateTime.Now.AddMonths(Convert.ToInt32(SD.SixMonthCount));
 				}
 				else
 				{
-					bookRent.ScheduledEndDate=DateTime.Now.AddMonths(Convert.ToInt32(SD.OneMonthCount));
+					bookRent.ScheduledEndDate = DateTime.Now.AddMonths(Convert.ToInt32(SD.OneMonthCount));
 				}
 				_context.SaveChanges();
 			}
@@ -359,16 +359,16 @@ namespace BookRental.Controllers
 
 		public ActionResult Return(int? id)
 		{
-			if(id==null)
+			if (id == null)
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
 
-			BookRent bookRent=_context.BookRental.Find(id);
+			BookRent bookRent = _context.BookRental.Find(id);
 
-			var model =getVMFromBookRent(bookRent);
+			var model = getVMFromBookRent(bookRent);
 
-			if(model==null)
+			if (model == null)
 			{
 				return HttpNotFound();
 			}
@@ -380,18 +380,18 @@ namespace BookRental.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Return(BookRentalViewModel model)
 		{
-			if(model.Id==0)
+			if (model.Id == 0)
 			{
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest) ;
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
 
-			if(ModelState.IsValid)
+			if (ModelState.IsValid)
 			{
 				BookRent bookRent = _context.BookRental.Find(model.Id);
-				bookRent.Status=BookRent.StatusEnum.Closed;
+				bookRent.Status = BookRent.StatusEnum.Closed;
 
-				bookRent.AdditionalCharge=model.AdditionalCharge;
-				Book bookInDb=_context.Books.Find(model.BookId);
+				bookRent.AdditionalCharge = model.AdditionalCharge;
+				Book bookInDb = _context.Books.Find(model.BookId);
 				bookInDb.Avaibility += 1;
 
 				_context.SaveChanges();
@@ -437,6 +437,48 @@ namespace BookRental.Controllers
 				_context.SaveChanges();
 			}
 
+			return RedirectToAction("Index");
+		}
+
+		public ActionResult Delete(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+
+			BookRent bookRent = _context.BookRental.Find(id);
+
+			var model = getVMFromBookRent(bookRent);
+
+			if (model == null)
+			{
+				return HttpNotFound();
+			}
+			return View(model);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Delete(BookRentalViewModel model)
+		{
+			if (model.Id == 0)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+
+			if (ModelState.IsValid)
+			{
+				BookRent bookRent = _context.BookRental.Find(model.Id);
+				_context.BookRental.Remove(bookRent);
+
+				var bookInDb=_context.Books.Where(b=>b.Id.Equals(model.Id)).FirstOrDefault();
+				if(bookRent.Status.ToString().ToLower().Equals("rented"))
+				{
+					bookInDb.Avaibility += 1;
+				}
+				_context.SaveChanges();
+			}
 			return RedirectToAction("Index");
 		}
 
